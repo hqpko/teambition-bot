@@ -9,11 +9,16 @@ import (
 	"github.com/robfig/cron"
 )
 
-const (
+var (
 	// CmdPrefix is the prefix used to identify a command.
 	// !hello would be identified as a command
 	CmdPrefix = "!"
 )
+
+//SetBotName _
+func SetBotName(botName string) {
+	CmdPrefix = botName + " "
+}
 
 // Bot handles the bot instance
 type Bot struct {

@@ -8,14 +8,10 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/go-chat-bot/bot",
-			"Rev": "8d0fcfe42a480d25d1a56d8247aafd9c05276010"
-		},
-		{
-			"ImportPath": "github.com/hqpko/bot",
 			"Rev": "c6a1811d554e941e334b57a472f98fd92f63c99a"
 		},
 		{
-			"ImportPath": "github.com/hqpko/bot/slack",
+			"ImportPath": "github.com/go-chat-bot/bot/slack",
 			"Rev": "c6a1811d554e941e334b57a472f98fd92f63c99a"
 		},
 		{
