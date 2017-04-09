@@ -6,3 +6,8 @@ var teambitionAPIToken string
 func SetTeambitionAPIToken(token string) {
 	teambitionAPIToken = token
 }
+
+var (
+	temHost string
+	temPort string
+)
