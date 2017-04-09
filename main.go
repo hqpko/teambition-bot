@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
-	"github.com/hqpko/bot"
-	"github.com/hqpko/bot/slack"
+	"github.com/go-chat-bot/bot"
+	"github.com/go-chat-bot/bot/slack"
 )
 
 func main() {
