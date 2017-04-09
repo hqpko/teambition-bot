@@ -1,0 +1,41 @@
+{
+	"ImportPath": "github.com/hqpko/teambition-bot",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v79",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/go-chat-bot/bot",
+			"Rev": "8d0fcfe42a480d25d1a56d8247aafd9c05276010"
+		},
+		{
+			"ImportPath": "github.com/hqpko/bot",
+			"Rev": "c6a1811d554e941e334b57a472f98fd92f63c99a"
+		},
+		{
+			"ImportPath": "github.com/hqpko/bot/slack",
+			"Rev": "c6a1811d554e941e334b57a472f98fd92f63c99a"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-shellwords",
+			"Comment": "v1.0.2",
+			"Rev": "005a0944d84452842197c2108bd9168ced206f78"
+		},
+		{
+			"ImportPath": "github.com/nlopes/slack",
+			"Comment": "v0.0.1-184-g5bdec13",
+			"Rev": "5bdec13b7f814e15f59a846bcbc2f64cd71f7888"
+		},
+		{
+			"ImportPath": "github.com/robfig/cron",
+			"Comment": "v1-53-gdf38d32",
+			"Rev": "df38d32658d8788cd446ba74db4bb5375c4b0cb3"
+		},
+		{
+			"ImportPath": "golang.org/x/net/websocket",
+			"Rev": "007e530097ad7f954752df63046b4036f98ba6a6"
+		}
+	]
+}
