@@ -18,6 +18,13 @@ func lt(cmd *bot.Cmd) (string, error) {
 	return "login first", nil
 }
 
+func ls(cmd *bot.Cmd) (string, error) {
+	if u, ok := users[cmd.User.ID]; ok {
+		return u.GetTasksWithUserID(u.ID)
+	}
+	return "login first", nil
+}
+
 func init() {
 	bot.RegisterCommand("lp",
 		"list something",
@@ -28,5 +35,10 @@ func init() {
 		"list tasklist",
 		"lt",
 		lt,
+	)
+	bot.RegisterCommand("ls",
+		"list tasks",
+		"ls",
+		ls,
 	)
 }

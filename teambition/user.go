@@ -83,3 +83,23 @@ func (u *User) Update() error {
 	}
 	return nil
 }
+
+func (u *User) GetTasksWithUserID(userID string) (string, error) {
+	defProject := u.Projects[u.DefProjectIndex]
+	defTaskList := defProject.TaskLists[u.DefTaskListIndex]
+	err := defTaskList.updateTasks(u.Token)
+	if err != nil {
+		return "", err
+	}
+
+	s := ""
+	for _, t := range defTaskList.Tasks {
+		if t.ExecutorId == userID {
+			if s != "" {
+				s += "\n"
+			}
+			s += fmt.Sprintf("%s %s %s", u.Name, t.Stage.Name, t.Content)
+		}
+	}
+	return s, nil
+}
