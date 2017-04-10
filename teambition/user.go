@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 )
 
 const (
@@ -28,7 +26,7 @@ type User struct {
 
 //InitInfo _
 func (u *User) InitInfo() error {
-	data, err := u.request(teambitionAPIURL + "api/users/me")
+	data, err := request(teambitionAPIURL+"api/users/me", u.Token)
 	if err != nil {
 		return err
 	}
@@ -36,7 +34,7 @@ func (u *User) InitInfo() error {
 }
 
 func (u *User) UpdateProject() error {
-	data, err := u.request(teambitionAPIURL + "api/projects")
+	data, err := request(teambitionAPIURL+"api/projects", u.Token)
 	if err != nil {
 		return err
 	}
@@ -54,7 +52,7 @@ func (u *User) UpdateTaskLists() error {
 		return errors.New("projects is empty.")
 	}
 	defProject := u.Projects[u.DefProjectIndex]
-	data, err := u.request(teambitionAPIURL + "api/projects/" + defProject.ID + "/tasklists")
+	data, err := request(teambitionAPIURL+"api/projects/"+defProject.ID+"/tasklists", u.Token)
 	if err != nil {
 		return err
 	}
@@ -94,32 +92,4 @@ func (u *User) GetTaskLists() (string, error) {
 		s += fmt.Sprintf("%d %s", i, defProject.TaskLists[i].Title)
 	}
 	return s, nil
-}
-
-func (u *User) request(url string) ([]byte, error) {
-	fmt.Println("request:", url)
-	req, err := u.getRequest(url)
-	if err != nil {
-		return nil, err
-	}
-
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	data, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-	return data, nil
-}
-
-func (u *User) getRequest(url string) (*http.Request, error) {
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, err
-	}
-	req.Header.Set("Authorization", "OAuth2 "+u.Token)
-	return req, nil
 }
