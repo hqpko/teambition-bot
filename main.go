@@ -10,7 +10,7 @@ import (
 
 func main() {
 	bot.SetBotName("tem")
-	tem.SetTeambitionAPIToken(os.Getenv("TEAMBITION_API_TOKEN"))
+	tem.InitTeambitionAPI(os.Getenv("TEAMBITION_APP_KEY"), os.Getenv("TEAMBITION_APP_SECRET"), os.Getenv("REDIRECT_URL"))
 	tem.Start(os.Getenv("TEM_HOST"), os.Getenv("TEM_PORT"))
 	slack.Run(os.Getenv("SLACK_TOKEN"))
 }

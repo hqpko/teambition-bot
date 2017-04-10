@@ -1,10 +1,12 @@
 package tem
 
-var teambitionAPIToken string
+import "github.com/hqpko/teambition-bot/teambition"
 
-//SetTeambitionAPIToken _
-func SetTeambitionAPIToken(token string) {
-	teambitionAPIToken = token
+var teambitionAPI *teambition.TeambitionAPI
+
+//InitTeambitionAPI _
+func InitTeambitionAPI(appKey, appSecret, redirectURL string) {
+	teambitionAPI = teambition.CreateTeambitionAPI(appKey, appSecret, redirectURL)
 }
 
 var (

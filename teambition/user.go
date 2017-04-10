@@ -2,7 +2,6 @@ package teambition
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 )
@@ -38,6 +37,5 @@ func (u *User) InitInfo() error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(string(data), u.Token)
 	return json.Unmarshal(data, u)
 }
