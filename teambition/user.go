@@ -2,7 +2,6 @@ package teambition
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 )
 
@@ -47,28 +46,7 @@ func (u *User) UpdateProject() error {
 	return nil
 }
 
-func (u *User) UpdateTaskLists() error {
-	if len(u.Projects) <= u.DefProjectIndex {
-		return errors.New("projects is empty.")
-	}
-	defProject := u.Projects[u.DefProjectIndex]
-	data, err := request(teambitionAPIURL+"api/projects/"+defProject.ID+"/tasklists", u.Token)
-	if err != nil {
-		return err
-	}
-	o := []*TaskList{}
-	err = json.Unmarshal(data, &o)
-	if err != nil {
-		return err
-	}
-	defProject.TaskLists = o
-	return nil
-}
-
 func (u *User) GetProject() (string, error) {
-	if err := u.UpdateProject(); err != nil {
-		return "", err
-	}
 	s := ""
 	for i := 0; i < len(u.Projects); i++ {
 		if s != "" {
@@ -80,9 +58,6 @@ func (u *User) GetProject() (string, error) {
 }
 
 func (u *User) GetTaskLists() (string, error) {
-	if err := u.UpdateTaskLists(); err != nil {
-		return "", err
-	}
 	defProject := u.Projects[u.DefProjectIndex]
 	s := ""
 	for i := 0; i < len(defProject.TaskLists); i++ {
@@ -92,4 +67,19 @@ func (u *User) GetTaskLists() (string, error) {
 		s += fmt.Sprintf("%d %s", i, defProject.TaskLists[i].Title)
 	}
 	return s, nil
+}
+
+//Update update projects && tasklist
+func (u *User) Update() error {
+	e := u.UpdateProject()
+	if e != nil {
+		return e
+	}
+	for _, p := range u.Projects {
+		e := p.updateTaskLists(u.Token)
+		if e != nil {
+			return e
+		}
+	}
+	return nil
 }
