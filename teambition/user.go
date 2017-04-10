@@ -18,7 +18,9 @@ type User struct {
 	Name  string `json:"name,omitempty"`
 	Phone string `json:"phone,omitempty"`
 
-	Projects []*Project `json:"-"`
+	Projects         []*Project `json:"-"`
+	DefProjectIndex  int        `json:"-"`
+	DefTaskListIndex int        `json:"-"`
 
 	Token string `json:"-"`
 }
