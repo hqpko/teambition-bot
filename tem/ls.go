@@ -4,17 +4,29 @@ import (
 	"github.com/go-chat-bot/bot"
 )
 
-func ls(cmd *bot.Cmd) (string, error) {
+func lp(cmd *bot.Cmd) (string, error) {
 	if u, ok := users[cmd.User.ID]; ok {
 		return u.GetProject()
 	}
 	return "login first", nil
 }
 
+func lt(cmd *bot.Cmd) (string, error) {
+	if u, ok := users[cmd.User.ID]; ok {
+		return u.GetTaskLists()
+	}
+	return "login first", nil
+}
+
 func init() {
-	bot.RegisterCommand("ls",
+	bot.RegisterCommand("lp",
 		"list something",
-		"ls",
-		ls,
+		"lp",
+		lp,
+	)
+	bot.RegisterCommand("lt",
+		"list tasklist",
+		"lt",
+		lt,
 	)
 }

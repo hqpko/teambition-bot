@@ -46,8 +46,6 @@ func (u *User) UpdateProject() error {
 		return err
 	}
 	u.Projects = o
-	fmt.Println(string(data))
-	fmt.Println(o)
 	return nil
 }
 
@@ -66,8 +64,6 @@ func (u *User) UpdateTaskLists() error {
 		return err
 	}
 	defProject.TaskLists = o
-	fmt.Println(string(data))
-	fmt.Println(o)
 	return nil
 }
 
