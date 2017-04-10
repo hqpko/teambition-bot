@@ -73,5 +73,9 @@ func (t *TeambitionAPI) Login(code string) (*User, error) {
 	if err != nil {
 		return nil, err
 	}
+	err = u.Update()
+	if err != nil {
+		return nil, err
+	}
 	return u, nil
 }
