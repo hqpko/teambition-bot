@@ -2,6 +2,7 @@ package teambition
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 )
@@ -17,25 +18,71 @@ type User struct {
 	Name  string `json:"name,omitempty"`
 	Phone string `json:"phone,omitempty"`
 
+	Projects []*Project `json:"-"`
+
 	Token string `json:"-"`
 }
 
 //InitInfo _
 func (u *User) InitInfo() error {
-	req, err := http.NewRequest("GET", teambitionAPIURL+"api/users/me", nil)
-	if err != nil {
-		return err
-	}
-	req.Header.Set("Authorization", "OAuth2 "+u.Token)
-	resp, err := http.DefaultClient.Do(req)
-
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-	data, err := ioutil.ReadAll(resp.Body)
+	data, err := u.request(teambitionAPIURL + "api/users/me")
 	if err != nil {
 		return err
 	}
 	return json.Unmarshal(data, u)
+}
+
+func (u *User) UpdateProject() error {
+	data, err := u.request(teambitionAPIURL + "api/projects")
+	if err != nil {
+		return err
+	}
+	o := []*Project{}
+	err = json.Unmarshal(data, &o)
+	if err != nil {
+		return err
+	}
+	u.Projects = o
+	return nil
+}
+
+func (u *User) GetProject() (string, error) {
+	if err := u.UpdateProject(); err != nil {
+		return "", err
+	}
+	s := ""
+	for i := 0; i < len(u.Projects); i++ {
+		if s != "" {
+			s += "\n"
+		}
+		s += fmt.Sprintf("%d %s", i, u.Projects[i].Name)
+	}
+	return s, nil
+}
+
+func (u *User) request(url string) ([]byte, error) {
+	req, err := u.getRequest(url)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	data, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+func (u *User) getRequest(url string) (*http.Request, error) {
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Authorization", "OAuth2 "+u.Token)
+	return req, nil
 }
