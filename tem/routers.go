@@ -16,11 +16,12 @@ func Start(host, port string) {
 }
 
 func temLogin(c *gin.Context) {
-	code := c.Query("code")
-	u, err := teambitionAPI.Login(code)
+	slackUserID := c.Query("state")
+	u, err := teambitionAPI.Login(c.Query("code"))
 	if err != nil {
 		c.String(http.StatusOK, "login:"+err.Error())
 	} else {
+		users[slackUserID] = u
 		c.String(http.StatusOK, "login,user name:"+u.Name)
 	}
 }
